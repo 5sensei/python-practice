@@ -41,4 +41,13 @@ select device_id,gender,age,university from user_profile where university != '�
 #----sql13:返回值中需要去除空值的，就用where !=''，单引号里面放空就行
 select device_id,gender,age,university from user_profile where age !='';
 
+#----sql14:查找的条件有多个并且限定范围，用and连接
+select device_id,gender,age,university,gpa from user_profile where gender = 'male' and gpa > 3.5;
+
+#----sql15:营想要找到学校为北大或GPA在3.7以上(不包括3.7)的用户进行调研，请你取出相关数据
+select device_id,gender,age,university,gpa from user_profile where university = '北京大学' or gpa > 3.7
+
+#----sql16:运营想要找到学校为北大、复旦和山大的同学进行调研，请你取出相关数据
+select device_id,gender,age,university,gpa from user_profile where university  in
+('北京大学','复旦大学','山东大学') # 不用not in 是因为之后如果加入新数据会一起查出来，除非硬性要求，还有就是加了in 的话后面的内容需要带括号
 
