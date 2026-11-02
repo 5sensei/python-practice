@@ -1,4 +1,4 @@
-# 今天学def函数定义以及return返回值
+import json
 roster = [
     {"name": "张三", "score": 85},
     {"name": "李四", "score": 58},
@@ -35,3 +35,29 @@ def get_fail_names(student_list):
     student_list = [m["name"] for m in student_list if m["score"] < 60]
     return student_list # 这里的话我是在内部定义了这个函数，我需要用return把这个东西先拿出来，我才能输出
 print(get_fail_names(roster))
+
+
+# day6study,写完了一天的数据，先用save保存到硬盘，第二天要用再用load读取出来
+
+# 任务1：定义存档函数 def save_data(student_list, filename):
+# 在函数内部使用 with open(filename, "w", encoding="utf-8") as f:
+# 配合 json.dump() 把传进来的 student_list 保存到文件中（别忘了加 ensure_ascii=False 和 indent=4）
+def save_data(student_list, filename):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(student_list, f, ensure_ascii=False ,indent=4)
+
+
+# 任务2：定义读档函数 def load_data(filename):
+# 在函数内部使用 with open(filename, "r", encoding="utf-8") as f:
+# 配合 return 和 json.load(f)，把读取出来的数据直接交回函数外面！
+def load_data(filename):
+    with open(filename,"r", encoding="utf-8") as f:
+        loaded_list = json.load(f)
+    return loaded_list
+
+# 任务3：调用测试
+# 1. 调用 save_data(roster, "data.json") 把花名册存进硬盘
+# 2. 调用 new_roster = load_data("data.json") 把数据读出来，并 print(new_roster)
+save_data(roster, "data.json") # 把data.json当作容器，把roster放进去
+new_roster = load_data("data.json")
+print(new_roster)
