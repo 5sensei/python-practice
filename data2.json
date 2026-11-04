@@ -1,22 +1,14 @@
 [
     {
-        "name": "神",
-        "score": 100
+        "name": "张三",
+        "score": 85
     },
     {
-        "name": "猪小肉",
+        "name": "李四",
         "score": 92
     },
     {
-        "name": "猪",
-        "score": 99
-    },
-    {
-        "name": "肉肉",
-        "score": "12"
-    },
-    {
-        "name": "刷",
-        "score": "1"
+        "name": "帅",
+        "score": 0
     }
 ]

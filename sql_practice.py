@@ -51,3 +51,16 @@ select device_id,gender,age,university,gpa from user_profile where university = 
 select device_id,gender,age,university,gpa from user_profile where university  in
 ('北京大学','复旦大学','山东大学') # 不用not in 是因为之后如果加入新数据会一起查出来，除非硬性要求，还有就是加了in 的话后面的内容需要带括号
 
+#----sql17:运营想要找到gpa在3.5以上(不包括3.5)的山东大学用户 或 gpa在3.8以上(不包括3.8)的复旦大学同学进行用户调研，请你取出相应数据,取出的数据按照device_id升序排列
+select device_id,gender,university,age from user_profile
+where (gpa >3.5 and university in ('山东大学')) # and连接里面的小句子，or连接外部的大句子
+   or (gpa >3.8 and university in ('复旦大学'))
+order by device_id asc;
+
+#----sql18:在运营想查看所有大学中带有"北京"的用户的信息(device_id,age,university)，请你取出相应数据
+select device_id,age,university from user_profile where university like '%北京%';# 查找相关字眼用where   like，字眼用%包起来
+
+#----sql19:运营想要知道复旦大学学生gpa最高值是多少，请你取出相应数据
+select max(gpa) as gpa from user_profile; #最大值最小值要用括号包住，正常不用加as gpa，这边是因为牛客网的判断太死板硬性gpa，日常自己写可以随便取名，只要括号里的东西跟库的一样就行
+#方法二：把查询出来的结果按照gpa降序排，限制到第一个
+select gpa from user_profile where university = '复旦大学' order by gpa desc limit 1;

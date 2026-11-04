@@ -42,7 +42,7 @@ roster = load_data("data2.json")
 # 3. 调用 load_data 重新从 "data.json" 读取数据赋值给 latest_roster
 # 4. 调用 get_score 在 latest_roster 里查询刚才添加的学生成绩，并 print 打印出来！
 a = input("神命令你输入一个名字：")
-b = input("神命令你输入这人的成绩：")
+b = int(input("神命令你输入这人的成绩："))
 add_student(roster,a,b)
 save_data(roster,"data2.json")
 latest_roster = load_data("data2.json")
