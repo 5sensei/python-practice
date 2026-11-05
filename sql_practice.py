@@ -64,3 +64,11 @@ select device_id,age,university from user_profile where university like '%北京
 select max(gpa) as gpa from user_profile; #最大值最小值要用括号包住，正常不用加as gpa，这边是因为牛客网的判断太死板硬性gpa，日常自己写可以随便取名，只要括号里的东西跟库的一样就行
 #方法二：把查询出来的结果按照gpa降序排，限制到第一个
 select gpa from user_profile where university = '复旦大学' order by gpa desc limit 1;
+
+#----sql20:运营想要看一下男性用户有多少人以及他们的平均gpa是多少，果使用round保留到小数点后面1位
+select
+count(gender) as male_num # 此处as列名为题目要求，可自定义,count表示数一数gender这列里面有几行
+round(avg(gpa),1) from user_profile # round表示四舍五入，保留几位小数就写几
+where gender = 'male'; #题目限制男性
+
+#----sql21:
