@@ -1,3 +1,16 @@
+#sql书写顺序
+SELECT   (你要查的列)
+FROM     (从哪张表)
+WHERE    (过滤原始数据的条件) —— 必须在 GROUP BY 前面！
+GROUP BY (按什么分组)
+HAVING   (过滤分组后数据的条件) —— 必须在 GROUP BY 后面！
+ORDER BY (最后排序)
+
+
+
+
+
+
 # day1 牛客网sql记录
 #----sql1:查询所有列，*代表所有列
 select * from user_profile;
@@ -71,4 +84,32 @@ count(gender) as male_num # 此处as列名为题目要求，可自定义,count�
 round(avg(gpa),1) from user_profile # round表示四舍五入，保留几位小数就写几
 where gender = 'male'; #题目限制男性
 
-#----sql21:
+#----sql21:运营想要对每个学校不同性别的用户活跃情况和发帖数量进行分析，请分别计算出每个学校每种性别的用户数、30天内平均活跃天数和平均发帖数量。查询返回结果需要对性别和学校分组，示例如下，结果保留1位小数，1位小数之后的四舍五入,查询出来的结果按照gender、university升序排列：
+select
+gender,university,
+count(*) as user_num, # 填*代表数几行的时候即使是空值也纳入只要符合筛选条件，如果填的是具体列名则不会计入
+round(avg(ctive_days_within_30),1) as avg_active_day,
+round(avg(question_cnt),1) as avg_question_cnt
+group by gender,university
+order by gender asc,university asc;
+
+#----sql22:取出平均发贴数低于5的学校或平均回帖数小于20的学校。
+select
+university,
+round(avg(question_cnt), 3) as avg_question_cnt,
+round(avg(answer_cnt), 3) as avg_answer_cnt
+from user_profile
+group by
+university
+having # 为什么不用where?因为这边的排序要求是精化过的平均数，用having，where用于原始数据，且where在分组前，having在分组后
+vg_question_cnt < 5 or avg_answer_cnt <20
+
+#----sql23:现在运营想要查看不同大学的用户平均发帖情况，并期望结果按照平均发帖情况进行升序排列，请你取出相应数据。
+select
+university,
+round(avg(question_cnt),4) as avg_question_cnt
+from user_profile  #从哪个表来的，经常容易忘记
+group by
+university
+order by
+avg_question_cnt asc
