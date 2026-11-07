@@ -1,4 +1,9 @@
 #sql书写顺序
+from babel.util import distinct
+from pandas.conftest import join_type
+
+import analyze
+
 SELECT   (你要查的列)
 FROM     (从哪张表)
 WHERE    (过滤原始数据的条件) —— 必须在 GROUP BY 前面！
@@ -113,3 +118,61 @@ group by
 university
 order by
 avg_question_cnt asc
+
+#----sql24:这题是多表关联查询，需要用inner join       on来关联两个表
+select
+a.device_id,a.question_id,a.result
+from
+question_practice_detail as a
+inner join
+user_profile as b
+on a.device_id = b.device_id and university = '浙江大学'
+order by
+question_id asc
+
+#----sql25:计算“平均答题数 = 总答题次数 ÷ 答过题的不同用户数”。也是需要连接多个表
+select
+a.university,
+round(count(b.question_cnt) / count(distinct a.device_id),4) as avg_answer_cnt
+from
+user_profile as a
+inner join
+question_practice_detail as b
+on a.device_id = b.device_id
+group by university
+order by university asc
+
+#----sql26:关联三个表，就是一个接一个的inner join，inner join对于没有内容的值会直接丢弃，而left join则会给予空值null保留
+select
+a.university
+c.difficult_level,
+round(count( b.question_id) / count(distinct b.device_id),4) as avg_answer_cnt # 根据题目要求的平均判断为b表的数据来计算
+from
+user_profile as a
+inner join  #第一个内连接
+question_practice_detail as b
+on a.device_id = b.device_id  #on表示根据这列把两个表连接起来
+inner join  #第二个内连接
+question_detail as c
+on b.question_id = c.question_id
+group by
+a.university,
+c.difficult_level
+
+#----sql27:关联三个表，查看参加了答题的山东大学的用户在不同难度下的平均答题题目数，学了前两题做这个就简单多了
+select
+a.university,
+c.difficult_level,
+round(count(b.question_id)/count(distinct b.device_id),4) as avg_answer_cnt  #取平均时候人数记得去重
+from
+user_profile as a
+inner join
+question_practice_detail as b
+on a.device_id = b.device_id
+inner join
+question_detail as c
+on b.question_id = c.question_id and university = '山东大学'
+group by  #题目说了不同难度，所以要按照难度分组
+difficult_level
+order by
+avg_answer_cnt asc
