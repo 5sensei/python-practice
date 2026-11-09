@@ -191,3 +191,40 @@ from
 user_profile
 where
 gender = 'male'
+
+#----sql29:运营想要将用户划分为25岁以下和25岁及以上两个年龄段，分别查看这两个年龄段用户数量
+#本题注意：age为null 也记为 25岁以下
+# 方法一，用sql的if写法
+select
+if(age is null or age >= 25,'25岁及以上','25岁一下') as age_cut #sql中if括号里第一个写条件，后面写分支，中间用逗号隔开，只要不满足第一个条件的都扔到第二个分支里面
+count(*) as number  # 最后根据年龄分组，这边就是数一数美足里面各有几人，如果数的是25岁及以上，把括号里面改成列名就行
+from
+user_profile
+group by
+age_cut
+
+# 方法二，用case when
+select
+   case
+   when age >=25 then '25岁及以上' #if用来处理二选一，如果多种情况需要嵌套写麻烦难看一般不用case可以多种情况，只要多加几行  when   then
+   else '25岁以下'
+end as age_cut,
+count(*) as number
+from
+user_profile
+group by
+age_cut
+
+#----sql30:运营想要将用户划分为20岁以下，20-24岁，25岁及以上三个年龄段，分别查看不同年龄段用户的明细情况，请取出相应数据。（注：若年龄为空请返回其他。）
+# 这题用case 因为多个分类用case
+select
+device_id,
+gender,
+case
+    when age < 20 then '20岁以下'
+    when age >= 20 and age <= 24 then '20-24岁'  #这边其实也可以用between  x and y来写，通常把变量写在前面方便看
+    when age >= 25 then '25岁及以上'
+    else '其他'
+    end as age_cut
+from
+user_profile
