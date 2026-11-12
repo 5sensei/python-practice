@@ -27,3 +27,5 @@
   - 类型修正：出现 `NaN` 会导致整列自动变成浮点数（带 `.0`），填补后可用 `.astype(int)` 强转回整数。
   - 条件筛选：`df[df["score"] > 90]`（内层方框负责判断对错生成 True/False 名单，外层方框拿着名单去原表格抓人，对应 SQL 的 WHERE）。
 - **下一步即将攻克**：Day 13（Pandas 的 groupby 分组统计与排序，以及牛客 SQL 第 29~31 题）
+
+Day 16 打卡内容：打通 PyCharm 与本地 MySQL 8.0，掌握数据库/表结构操作，完成 UPDATE、WHERE + ORDER BY、INNER JOIN 多表连接及 GROUP BY + HAVING + ROUND 聚合统计练习。
